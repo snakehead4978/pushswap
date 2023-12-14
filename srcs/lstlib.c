@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   lstlibs.c                                          :+:      :+:    :+:   */
+/*   lstlib.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jla-chon <jla-chon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/07 12:00:36 by jla-chon          #+#    #+#             */
-/*   Updated: 2023/12/07 17:30:23 by jla-chon         ###   ########.fr       */
+/*   Updated: 2023/12/07 18:40:09 by jla-chon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,20 +14,30 @@
 
 void	ft_lstadd_back(t_list **lst, t_list *new)
 {
-	t_list	*tmp;
-
-	tmp = *lst;
 	if (!*lst)
+	{
 		*lst = new;
+		new->next = 0;
+		new->previous = 0;
+	}
 	else
 	{
-		while (tmp->next != 0)
-			tmp = tmp->next;
-		tmp->next = new;
+		if ((*lst)->previous)
+		{
+			(*lst)->previous->next = new;
+			new->previous = (*lst)->previous;
+		}
+		else
+		{
+			(*lst)->next = new;
+			new->previous = *lst;
+		}
+		new->next = *lst;
+		(*lst)->previous = new;
 	}
 }
 
-t_list	*ft_lstnew(void *content)
+t_list	*ft_lstnew(int content)
 {
 	t_list	*new;
 
@@ -35,50 +45,34 @@ t_list	*ft_lstnew(void *content)
 	if (!new)
 		return (0);
 	new->content = content;
+	new->previous = 0;
 	new->next = 0;
 	return (new);
 }
 
-void	ft_lstadd_front(t_list **lst, t_list *new)
-{
-	if (!new)
-		return ;
-	new->next = *lst;
-	*lst = new;
-}
-
-static void	ft_cl(t_list *lst, void (*del)(void *))
+static void	ft_cl(t_list *lst)
 {
 	if (lst->next != 0)
-		ft_cl(lst->next, del);
-	del(lst->content);
+		ft_cl(lst->next);
 	free(lst);
 }
 
-static void	ft_lstclear(t_list **lst, void (*del)(void *))
+void	ft_lstclear(t_list **lst)
 {
-	if (!lst)
+	if (!*lst)
 		return ;
-	if (!*lst || !del)
-		return ;
-	ft_cl(*lst, del);
+	if ((*lst)->previous)
+		(*lst)->previous->next = 0;
+	ft_cl(*lst);
 	*lst = 0;
 }
 
-void	ft_lstdelone(t_list *lst, void (*del)(void *))
-{
-	if (!lst || !del)
-		return ;
-	del(lst->content);
-	free(lst);
-}
-
-int	ft_psfree(void *a, void *b, t_list *lst)
+int	ft_psfree(void *a, void *b, t_list **lst)
 {
 	free(a);
 	a = 0;
 	free(b);
 	b = 0;
-	ft_lstclear(lst, free);
+	ft_lstclear(lst);
 	return (0);
 }

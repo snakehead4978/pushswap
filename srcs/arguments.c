@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   arguments.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jla-chon <jla-chon@student.42.fr>          +#+  +:+       +#+        */
+/*   By: snek <snek@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/04 17:38:05 by jla-chon          #+#    #+#             */
-/*   Updated: 2023/12/06 17:11:40 by jla-chon         ###   ########.fr       */
+/*   Updated: 2023/12/13 18:22:57 by snek             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,12 +73,12 @@ static int	ft_arguments(t_list **numlst, char **av)
 	{
 		num = 0;
 		if (ft_psatoi(num, av[i]))
-			return (ft_psfree(num, *numlst));
+			return (ft_psfree(num, 0, *numlst));
 		new = ft_lstnew(num);
 		if (!new)
-			return (ft_psfree(num, *numlst));
+			return (ft_psfree(num, 0, *numlst));
 		if(!ft_psaddback(numlst, new))
-			return (ft_psfree(num, *numlst));
+			return (ft_psfree(num, 0, *numlst));
 		i++;
 	}
 	return (1);

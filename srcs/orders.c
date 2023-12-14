@@ -1,25 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   checker_bonus.c                                    :+:      :+:    :+:   */
+/*   orders.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: snek <snek@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/12/04 17:35:26 by jla-chon          #+#    #+#             */
-/*   Updated: 2023/12/11 21:14:48 by snek             ###   ########.fr       */
+/*   Created: 2023/12/08 18:39:20 by snek              #+#    #+#             */
+/*   Updated: 2023/12/14 01:06:44 by snek             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pushswap.h"
 
-int	main(int ac, char **av)
+int	ft_addorder(t_list **node, t_i i)
 {
-	t_list	*numlist;
-	t_list	*ordlist;
+	t_list	*new;
 
-	numlist = 0;
-	ordlist = 0;
-	if (!ft_checkandstock(&numlist, ac, (char *)av))
+	new = ft_lstnew(i);
+	if (!new)
 		return (0);
-	
+	ft_lstadd_back(node, new);
+	return (1);
+}
+
+int	ft_ordandop(t_list **alist, t_list **blist, t_list **olist, t_i i)
+{
+	if (!ft_addorder(olist, i))
+		return (0);
+	ft_operate(alist, blist, i);
+	return (1);
 }
