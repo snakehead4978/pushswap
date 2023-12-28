@@ -18,9 +18,9 @@ static int	ft_findcase(t_list *node)
 	int	b;
 	int	c;
 
-	a = *(int *)node->content;
-	b = *(int *)node->next->content;
-	c = *(int *)node->next->next->content;
+	a = node->content;
+	b = node->next->content;
+	c = node->previous->content;
 	if (a < b && b > c && a < c)
 		return (1);
 	else if (a < b)

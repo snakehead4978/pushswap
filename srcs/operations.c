@@ -16,7 +16,7 @@ static void	ft_swap(t_list **lst)
 {
 	t_list	*tmp;
 
-	if (!*lst || !(*lst)->next)
+	if (!*lst || !(*lst)->next || (*lst)->next == *lst)
 		return ;
 	if ((*lst)->next->next == *lst)
 	{
@@ -48,9 +48,14 @@ static void	ft_push(t_list **lsta, t_list *lstb)
 	t_list	*tmp;
 
 	tmp = *lsta;
-	(*lsta)->previous->next = (*lsta)->next;
-	(*lsta)->next->previous = (*lsta)->previous;
-	*lsta = (*lsta)->next;
+	if ((*lsta)->next && (*lsta)->next != *lsta)
+	{
+		(*lsta)->previous->next = (*lsta)->next;
+		(*lsta)->next->previous = (*lsta)->previous;
+		*lsta = (*lsta)->next;
+	}
+	else
+		*lsta = 0;
 	ft_lstadd_back(&lstb, tmp);
 }
 

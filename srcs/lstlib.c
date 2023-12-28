@@ -76,3 +76,19 @@ int	ft_psfree(void *a, void *b, t_list **lst)
 	ft_lstclear(lst);
 	return (0);
 }
+
+int	ft_findmax(t_list **lst)
+{
+	int		res;
+	t_list	*tmp;
+
+	tmp = *lst;
+	res = tmp->content;
+	tmp = tmp->next;
+	while (tmp != *lst)
+	{
+		if (tmp->content > res)
+			res = tmp->content;
+		tmp = tmp->next;
+	}
+}
